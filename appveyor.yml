@@ -53,5 +53,5 @@ before_build:
       Get-FileHash appveyor.json
 
 build_script:
-  - echo "Finished"
+  - echo "***Finished***"
 
