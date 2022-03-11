@@ -1,0 +1,57 @@
+version: '{branch}-{build}'
+
+environment:
+  CL: /MP
+  generator: Visual Studio 16 2019
+  ifw_location: C:\Qt\Tools\QtInstallerFramework\4.3
+  iric_access_token:
+    secure: kGB7+cEG4P/hpRudE+trZHlt2y8CMBhEznGPb3nvH3HiGFRxXOiu/mBKKftEMhU/Kirhlvo+9yHD9Hj1nnXrJQ4Jq5SmQh0s6K+Qg2RqZ7CVufCbvvx6+VoIobvlWS9y
+  kskinoue0612_access_token:
+    secure: todo
+  scharlton2_access_token:
+    secure: poxQ3oSSyxaLhAKgssufUO/nkfCSL/nFEWT1+LLGA49c2Y4A+irk2rOlmYmHXMx/NfZTZ0npQ/czsbHzGKBk+akgmgl1MKnBhQEY8IM7fKDE9lMppsDR9E8Qs97N8B1K
+  iric_json_pw:
+    secure: x7Bi2kbDreMKpnkY3Y8a1A==
+  kskinoue0612_json_pw:
+    secure: todo
+  scharlton2_json_pw:
+    secure: 8B/dWokM+gmQ77IN22zETQ==
+
+
+image:
+  - Visual Studio 2019
+
+init:
+  - ps: |
+      if ($env:iric_json_pw) { echo "iric_json_pw = $($env:iric_json_pw.Length)" }
+      if ($env:scharlton2_json_pw) { echo "scharlton2_json_pw = $($env:scharlton2_json_pw.Length)" }
+  - pwsh: |
+      if ($env:iric_json_pw) { echo "iric_json_pw = $($env:iric_json_pw.Length)" }
+      if ($env:scharlton2_json_pw) { echo "scharlton2_json_pw = $($env:scharlton2_json_pw.Length)" }
+
+configuration:
+  - Debug
+  - Release
+
+matrix:
+  fast_finish: true
+
+before_build:
+  - pwsh: |
+      ####################################################################################
+      # *_json_pw env vars contain encrypted password
+      ####################################################################################
+      $pw = $env:iric_json_pw
+      if ($env:APPVEYOR_REPO_NAME -eq "scharlton2/av_ticket") {
+        $pw = $env:scharlton2_json_pw
+      }
+      if ($env:APPVEYOR_REPO_NAME -eq "kskinoue0612/av_ticket") {
+        $pw = $env:kskinoue0612_json_pw
+      }
+      7z x -p"$($pw*10)" appveyor.json.7z
+      Write-Output "Should be CFC51A12FF707A076DC011AFD7DD65A5626708930D4AB4B532F0B7F69AA2D3E6"
+      Get-FileHash appveyor.json
+
+build_script:
+  - echo "Finished"
+
