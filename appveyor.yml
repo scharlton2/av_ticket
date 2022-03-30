@@ -63,7 +63,7 @@ deploy:
     release: av_ticket-v$(APPVEYOR_BUILD_VERSION)
     description: 'Test release'
     auth_token:
-      secure: $(scharlton2_access_token) # your encrypted token from GitHub
+      secure: poxQ3oSSyxaLhAKgssufUO/nkfCSL/nFEWT1+LLGA49c2Y4A+irk2rOlmYmHXMx/NfZTZ0npQ/czsbHzGKBk+akgmgl1MKnBhQEY8IM7fKDE9lMppsDR9E8Qs97N8B1K # your encrypted token from GitHub
     artifact: appveyor.json.7z
     draft: false
     prerelease: false
