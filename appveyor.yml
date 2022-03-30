@@ -60,10 +60,13 @@ build_script:
 artifacts:
   - path: appveyor.json.7z
 
+before_deploy:
+  - ps: $env:release_title="This is the title"
+
 deploy:
   - provider: GitHub
     tag: LATEST
-    release: av_ticket-v$(APPVEYOR_BUILD_VERSION)
+    release: $(release_title)
     description: 'Test release'
     auth_token:
       secure: xawcr/f1HW+2ad233K03DxKOOgTL6iP7uxITt/PdJdrd5hrGbYrUM1EmG5pItnle
