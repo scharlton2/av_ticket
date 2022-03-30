@@ -1,5 +1,7 @@
 version: '{branch}-{build}'
 
+skip_tags: true
+
 environment:
   CL: /MP
   generator: Visual Studio 16 2019
@@ -29,9 +31,9 @@ init:
       if ($env:iric_json_pw) { echo "iric_json_pw = $($env:iric_json_pw.Length)" }
       if ($env:scharlton2_json_pw) { echo "scharlton2_json_pw = $($env:scharlton2_json_pw.Length)" }
 
-configuration:
-  - Debug
-  - Release
+# configuration:
+#  - Debug
+#   - Release
 
 matrix:
   fast_finish: true
@@ -55,3 +57,17 @@ before_build:
 build_script:
   - echo "Finished"
 
+deploy:
+  - provider: GitHub
+    tag: LATEST
+    release: av_ticket-v$(APPVEYOR_BUILD_VERSION)
+    description: 'Test release'
+    auth_token:
+      secure: $(scharlton2_access_token) # your encrypted token from GitHub
+    artifact: appveyor.json.7z
+    draft: false
+    prerelease: false
+    force_update: true
+    on:
+      branch: gh_release             # release from gh_release branch only
+      APPVEYOR_REPO_TAG: false       # deploy on tag push only
