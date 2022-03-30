@@ -62,6 +62,7 @@ artifacts:
 
 before_deploy:
   - ps: $env:release_title="This is the title"
+  - ps: $env:token=$env:scharlton2_access_token
 
 deploy:
   - provider: GitHub
@@ -69,7 +70,7 @@ deploy:
     release: $(release_title)
     description: 'Test release'
     auth_token:
-      secure: xawcr/f1HW+2ad233K03DxKOOgTL6iP7uxITt/PdJdrd5hrGbYrUM1EmG5pItnle
+      secure: $(token)
     artifact: appveyor.json.7z
     draft: false
     prerelease: false
