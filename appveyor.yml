@@ -57,7 +57,7 @@ before_build:
 build_script:
   - echo "Finished"
 
-artifact:
+artifacts:
   - path: appveyor.json.7z
 
 deploy:
