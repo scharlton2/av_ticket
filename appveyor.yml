@@ -69,8 +69,7 @@ deploy:
     tag: LATEST
     release: $(release_title)
     description: 'Test release'
-    auth_token:
-      secure: $(token)
+    auth_token: $(scharlton2_access_token)
     artifact: appveyor.json.7z
     draft: false
     prerelease: false
