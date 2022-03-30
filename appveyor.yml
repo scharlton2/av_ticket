@@ -57,17 +57,31 @@ before_build:
 build_script:
   - echo "Finished"
 
+# deploy:
+#   - provider: GitHub
+#     tag: LATEST
+#     release: av_ticket-v$(APPVEYOR_BUILD_VERSION)
+#     description: 'Test release'
+#     auth_token:
+#       secure: $(scharlton2_access_token) # your encrypted token from GitHub
+#     artifact: appveyor.json.7z
+#     draft: false
+#     prerelease: false
+#     force_update: true
+#     on:
+#       branch: gh_release             # release from gh_release branch only
+#       APPVEYOR_REPO_TAG: false       # deploy on tag push only
+
+
 deploy:
-  - provider: GitHub
-    tag: LATEST
-    release: av_ticket-v$(APPVEYOR_BUILD_VERSION)
-    description: 'Test release'
-    auth_token:
-      secure: poxQ3oSSyxaLhAKgssufUO/nkfCSL/nFEWT1+LLGA49c2Y4A+irk2rOlmYmHXMx/NfZTZ0npQ/czsbHzGKBk+akgmgl1MKnBhQEY8IM7fKDE9lMppsDR9E8Qs97N8B1K # your encrypted token from GitHub
-    artifact: appveyor.json.7z
-    draft: false
-    prerelease: false
-    force_update: true
-    on:
-      branch: gh_release             # release from gh_release branch only
-      APPVEYOR_REPO_TAG: false       # deploy on tag push only
+  release: myproduct-v$(APPVEYOR_BUILD_VERSION)
+  description: 'Release description'
+  provider: GitHub
+  auth_token:
+    secure:$(scharlton2_access_token) # your encrypted token from GitHub
+  artifact: appveyor.json.7z            # upload all NuGet packages to release assets
+  draft: false
+  prerelease: false
+  on:
+    branch: gh_release
+    APPVEYOR_REPO_TAG: false
