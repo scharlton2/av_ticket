@@ -11,7 +11,7 @@ environment:
   kskinoue0612_access_token:
     secure: todo
   scharlton2_access_token:
-    secure: poxQ3oSSyxaLhAKgssufUO/nkfCSL/nFEWT1+LLGA49c2Y4A+irk2rOlmYmHXMx/NfZTZ0npQ/czsbHzGKBk+akgmgl1MKnBhQEY8IM7fKDE9lMppsDR9E8Qs97N8B1K
+    secure: xawcr/f1HW+2ad233K03DxKOOgTL6iP7uxITt/PdJdrd5hrGbYrUM1EmG5pItnle
   iric_json_pw:
     secure: x7Bi2kbDreMKpnkY3Y8a1A==
   kskinoue0612_json_pw:
