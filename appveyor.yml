@@ -55,13 +55,14 @@ before_build:
       Get-FileHash appveyor.json
 
 build_script:
+  - ren appveyor.json.7z debug.appveyor.json.7z
   - echo "Finished"
 
 artifacts:
-  - path: appveyor.json.7z
+  - path: *.appveyor.json.7z
 
 before_deploy:
-  - ps: $env:release_title="This is the title"
+  - ps: $env:release_title="iricdev $(get-date -AsUTC -Format o)"
   - ps: $env:token=$env:scharlton2_access_token
 
 deploy:
@@ -69,8 +70,8 @@ deploy:
     tag: LATEST
     release: $(release_title)
     description: 'Test release'
-    auth_token: $(scharlton2_access_token)
-    artifact: appveyor.json.7z
+    auth_token: $(token)
+    artifact: *.appveyor.json.7z
     draft: false
     prerelease: false
     force_update: true
