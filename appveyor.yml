@@ -64,12 +64,13 @@ artifacts:
 
 before_deploy:
   - pwsh: $env:release_title="iricdev $(get-date -AsUTC -Format o)"
+  - ps: $t = Get-Date; $t=$t.ToUniversalTime(); $env:title="iriclib $(Get-Date -Date $t -Format o)"
   - ps: $env:token=$env:scharlton2_access_token
 
 deploy:
   - provider: GitHub
     tag: LATEST
-    release: $(release_title)
+    release: $(title)
     description: 'Test release'
     auth_token: $(token)
     artifact: $(artifact)
