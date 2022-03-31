@@ -56,10 +56,11 @@ before_build:
 
 build_script:
   - ren appveyor.json.7z debug.appveyor.json.7z
+  - ps: $env:artifact="debug.appveyor.json.7z"
   - echo "Finished"
 
 artifacts:
-  - path: '*.appveyor.json.7z'
+  - path: $(artifact)
 
 before_deploy:
   - ps: $env:release_title="iricdev $(get-date -AsUTC -Format o)"
@@ -71,7 +72,7 @@ deploy:
     release: $(release_title)
     description: 'Test release'
     auth_token: $(token)
-    artifact: *.appveyor.json.7z
+    artifact: $(artifact)
     draft: false
     prerelease: false
     force_update: true
