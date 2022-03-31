@@ -59,7 +59,7 @@ build_script:
   - echo "Finished"
 
 artifacts:
-  - path: *.appveyor.json.7z
+  - path: '*.appveyor.json.7z'
 
 before_deploy:
   - ps: $env:release_title="iricdev $(get-date -AsUTC -Format o)"
