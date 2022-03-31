@@ -63,7 +63,7 @@ artifacts:
   - path: $(artifact)
 
 before_deploy:
-  - ps: $env:release_title="iricdev $(get-date -AsUTC -Format o)"
+  - pwsh: $env:release_title="iricdev $(get-date -AsUTC -Format o)"
   - ps: $env:token=$env:scharlton2_access_token
 
 deploy:
