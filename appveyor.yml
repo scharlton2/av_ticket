@@ -31,9 +31,9 @@ init:
       if ($env:iric_json_pw) { echo "iric_json_pw = $($env:iric_json_pw.Length)" }
       if ($env:scharlton2_json_pw) { echo "scharlton2_json_pw = $($env:scharlton2_json_pw.Length)" }
 
-# configuration:
-#  - Debug
-#   - Release
+configuration:
+  - Debug
+  - Release
 
 matrix:
   fast_finish: true
@@ -55,8 +55,15 @@ before_build:
       Get-FileHash appveyor.json
 
 build_script:
-  - ren appveyor.json.7z debug.appveyor.json.7z
-  - ps: $env:artifact="debug.appveyor.json.7z"
+  - ps: |
+      if ($env:Configuration -eq "Debug") {
+        $env:artifact="debug.appveyor.json.7z"
+        Rename-Item appveyor.json.7z debug.appveyor.json.7z
+      }
+      else if ($env:Configuration -eq "Release") {
+        $env:artifact="release.appveyor.json.7z"
+        Rename-Item appveyor.json.7z release.appveyor.json.7z
+      }
   - echo "Finished"
 
 artifacts:
