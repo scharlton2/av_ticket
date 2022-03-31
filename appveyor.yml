@@ -60,7 +60,7 @@ build_script:
         $env:artifact="debug.appveyor.json.7z"
         Rename-Item appveyor.json.7z debug.appveyor.json.7z
       }
-      else if ($env:Configuration -eq "Release") {
+      if ($env:Configuration -eq "Release") {
         $env:artifact="release.appveyor.json.7z"
         Rename-Item appveyor.json.7z release.appveyor.json.7z
       }
