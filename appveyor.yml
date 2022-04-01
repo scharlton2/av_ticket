@@ -19,7 +19,6 @@ environment:
   scharlton2_json_pw:
     secure: 8B/dWokM+gmQ77IN22zETQ==
 
-
 image:
   - Visual Studio 2019
 
@@ -54,17 +53,36 @@ before_build:
       Write-Output "Should be CFC51A12FF707A076DC011AFD7DD65A5626708930D4AB4B532F0B7F69AA2D3E6"
       Get-FileHash appveyor.json
 
-build_script:
-  - ps: |
-      if ($env:Configuration -eq "Debug") {
-        $env:artifact="debug.appveyor.json.7z"
-        Rename-Item appveyor.json.7z debug.appveyor.json.7z
-      }
-      if ($env:Configuration -eq "Release") {
-        $env:artifact="release.appveyor.json.7z"
-        Rename-Item appveyor.json.7z release.appveyor.json.7z
-      }
-  - echo "Finished"
+# build_script:
+#   - ps: |
+#       if ($env:Configuration -eq "Debug") {
+#         $env:artifact="debug.appveyor.json.7z"
+#         Copy-Item appveyor.json.7z debug.appveyor.json.7z
+#       }
+#       if ($env:Configuration -eq "Release") {
+#         $env:artifact="release.appveyor.json.7z"
+#         Copy-Item appveyor.json.7z release.appveyor.json.7z
+#       }
+#   - echo "Finished"
+
+for:
+  -
+    matrix:
+      only:
+        - Configuration: Debug
+    build_script:
+      - ps: |
+          $env:artifact="debug.appveyor.json.7z"
+          Copy-Item appveyor.json.7z debug.appveyor.json.7z
+
+  -
+    matrix:
+      only:
+        - Configuration: Release
+    build_script:
+      - ps: |
+          $env:artifact="release.appveyor.json.7z"
+          Copy-Item appveyor.json.7z release.appveyor.json.7z
 
 artifacts:
   - path: $(artifact)
