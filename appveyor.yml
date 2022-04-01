@@ -71,7 +71,7 @@ artifacts:
 
 before_deploy:
   - pwsh: $env:release_title="iricdev $(get-date -AsUTC -Format o)"
-  - ps: $t = Get-Date; $t=$t.ToUniversalTime(); $env:title="iriclib $(Get-Date -Date $t -Format o)"
+  - ps: $env:title="iriclib $((Get-Date).ToUniversalTime().ToString('o'))"
   - ps: $env:token=$env:scharlton2_access_token
 
 deploy:
@@ -87,17 +87,3 @@ deploy:
     on:
       branch: gh_release             # release from gh_release branch only
       APPVEYOR_REPO_TAG: false       # deploy on tag push only
-
-
-# deploy:
-#   release: myproduct-v$(APPVEYOR_BUILD_VERSION)
-#   description: 'Release description'
-#   provider: GitHub
-#   auth_token:
-#     secure: xawcr/f1HW+2ad233K03DxKOOgTL6iP7uxITt/PdJdrd5hrGbYrUM1EmG5pItnle
-#   artifact: appveyor.json.7z
-#   draft: false
-#   prerelease: false
-#   on:
-#     branch: gh_release
-#     APPVEYOR_REPO_TAG: false
