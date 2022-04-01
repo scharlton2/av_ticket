@@ -66,23 +66,25 @@ before_build:
 #   - echo "Finished"
 
 for:
-  -
-    matrix:
-      only:
-        - Configuration: Debug
-    build_script:
-      - ps: |
-          $env:artifact="debug.appveyor.json.7z"
-          Copy-Item appveyor.json.7z debug.appveyor.json.7z
+-
+  matrix:
+    only:
+      - configuration: Debug
 
-  -
-    matrix:
-      only:
-        - Configuration: Release
-    build_script:
-      - ps: |
-          $env:artifact="release.appveyor.json.7z"
-          Copy-Item appveyor.json.7z release.appveyor.json.7z
+  build_script:
+    - ps: |
+        $env:artifact="debug.appveyor.json.7z"
+        Copy-Item appveyor.json.7z debug.appveyor.json.7z
+
+-
+  matrix:
+    only:
+      - configuration: Release
+
+  build_script:
+    - ps: |
+        $env:artifact="release.appveyor.json.7z"
+        Copy-Item appveyor.json.7z release.appveyor.json.7z
 
 artifacts:
   - path: $(artifact)
