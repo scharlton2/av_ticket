@@ -18,6 +18,17 @@ environment:
     secure: todo
   scharlton2_json_pw:
     secure: 8B/dWokM+gmQ77IN22zETQ==
+  
+  matrix:
+
+    - job_name: debug
+      job_group: configurations
+
+    - job_name: release
+      job_group: configurations
+
+    - job_name: merge
+      job_depends_on: configurations
 
 image:
   - Visual Studio 2019
@@ -30,9 +41,9 @@ init:
       if ($env:iric_json_pw) { echo "iric_json_pw = $($env:iric_json_pw.Length)" }
       if ($env:scharlton2_json_pw) { echo "scharlton2_json_pw = $($env:scharlton2_json_pw.Length)" }
 
-configuration:
-  - Debug
-  - Release
+# configuration:
+#   - Debug
+#   - Release
 
 matrix:
   fast_finish: true
@@ -65,26 +76,70 @@ before_build:
 #       }
 #   - echo "Finished"
 
+# for:
+# -
+#   matrix:
+#     only:
+#       - configuration: Debug
+
+#   build_script:
+#     - ps: |
+#         $env:artifact="debug.appveyor.json.7z"
+#         Copy-Item appveyor.json.7z debug.appveyor.json.7z
+
+# -
+#   matrix:
+#     only:
+#       - configuration: Release
+
+#   build_script:
+#     - ps: |
+#         $env:artifact="release.appveyor.json.7z"
+#         Copy-Item appveyor.json.7z release.appveyor.json.7z
+
+# -
+#   matrix:
+#     only:
+#       - job_name: merge
+
+#   build_script:
+#     - ps: |
+#         Get-ChildItem
+#         $env:artifact="merge.appveyor.json.7z"
+#         Copy-Item appveyor.json.7z merge.appveyor.json.7z
+
 for:
-  -
-    matrix:
-      only:
-        - configuration: Debug
+-
+  matrix:
+    only:
+      - job_name: Debug
 
-    build_script:
-      - ps: |
-          $env:artifact="debug.appveyor.json.7z"
-          Copy-Item appveyor.json.7z debug.appveyor.json.7z
+  build_script:
+    - ps: |
+        $env:artifact="debug.appveyor.json.7z"
+        Copy-Item appveyor.json.7z debug.appveyor.json.7z
 
-  -
-    matrix:
-      only:
-        - configuration: Release
+-
+  matrix:
+    only:
+      - job_name: Release
 
-    build_script:
-      - ps: |
-          $env:artifact="release.appveyor.json.7z"
-          Copy-Item appveyor.json.7z release.appveyor.json.7z
+  build_script:
+    - ps: |
+        $env:artifact="release.appveyor.json.7z"
+        Copy-Item appveyor.json.7z release.appveyor.json.7z
+
+-
+  matrix:
+    only:
+      - job_name: merge
+
+  build_script:
+    - ps: |
+        Get-ChildItem
+        $env:artifact="merge.appveyor.json.7z"
+        Copy-Item appveyor.json.7z merge.appveyor.json.7z
+
 
 artifacts:
   - path: $(artifact)
