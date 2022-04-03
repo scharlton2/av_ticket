@@ -70,10 +70,7 @@ artifacts:
   - path: $(artifact)
 
 before_deploy:
-  - pwsh: |
-      if ($true) {
-        [System.Environment]::SetEnvironmentVariable('release_title', "iricdev $(get-date -AsUTC -Format o)", 'Machine')
-      }
+  - pwsh: [System.Environment]::SetEnvironmentVariable('release_title', "iricdev $(get-date -AsUTC -Format o)", 'Machine')
   - ps: $env:release_title=[System.Environment]::GetEnvironmentVariable('release_title', 'Machine')
   - ps: $env:token=$env:scharlton2_access_token
 
