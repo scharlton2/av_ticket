@@ -70,14 +70,14 @@ artifacts:
   - path: $(artifact)
 
 before_deploy:
-  - pwsh: $env:release_title="iricdev $(get-date -AsUTC -Format o)"
-  - ps: $env:title="iriclib $((Get-Date).ToUniversalTime().ToString('o'))"
+  - pwsh: [System:Environment]::SetEnvironmentVariable('release_title', "iricdev $(get-date -AsUTC -Format o)", 'Machine')
+  - ps: $env:release_title=[System:Environment]::GetEnvironmentVariable('release_title', 'Machine')
   - ps: $env:token=$env:scharlton2_access_token
 
 deploy:
   - provider: GitHub
     tag: LATEST
-    release: $(title)
+    release: $(release_title)
     description: 'Test release'
     auth_token: $(token)
     artifact: $(artifact)
